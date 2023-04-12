@@ -135,7 +135,7 @@ SELECT p.first_name, p.last_name, t.new_team, t.transfer_fee
 
 
 -- 7. Referee give out most penalty 
-SELECT referees.first_name, referees.last_name, SUM(stats.penalty) AS total_pen, matches.match_id
+SELECT referees.first_name, referees.last_name, SUM(stats.penalty) AS total_pen
     FROM referees, matches, stats
         WHERE referees.referee_id = matches.referee1_id
         AND matches.match_id = stats.match_id
@@ -143,16 +143,17 @@ SELECT referees.first_name, referees.last_name, SUM(stats.penalty) AS total_pen,
             GROUP BY referees.referee_id
             ORDER BY `total_pen` DESC; 
 
--- +------------+------------+-----------+----------+
--- | first_name | last_name  | total_pen | match_id |
--- +------------+------------+-----------+----------+
--- | Ingemar    | Hukins     |         2 |        9 |
--- | Ferdy      | Matei      |         2 |        1 |
--- | Walliw     | Ditts      |         2 |        7 |
--- | Alena      | Isaac      |         1 |        5 |
--- | Raul       | Torra      |         1 |        8 |
--- | Vachel     | Garthshore |         1 |        4 |
--- +------------+------------+-----------+----------+
+-- +------------+------------+-----------+
+-- | first_name | last_name  | total_pen |
+-- +------------+------------+-----------+
+-- | Walliw     | Ditts      |         2 |
+-- | Ingemar    | Hukins     |         2 |
+-- | Ferdy      | Matei      |         2 |
+-- | Alena      | Isaac      |         1 |
+-- | Raul       | Torra      |         1 |
+-- | Vachel     | Garthshore |         1 |
+-- +------------+------------+-----------+
+-- 6 rows in set (0.001 sec)
 
 -- 8. Find stadium details which have capacity between 50,000 and 70,000 and located in London and Manchester
 
@@ -203,23 +204,23 @@ SELECT (normal_goals +  penalty) AS goals, first_name, last_name
     FROM stats, players
         WHERE stats.player_id = players.player_id
             AND (normal_goals + penalty) > 0
+                GROUP BY players.player_id
                 ORDER BY (normal_goals + penalty) DESC LIMIT 10;
 
 -- +-------+------------+--------------+
 -- | goals | first_name | last_name    |
 -- +-------+------------+--------------+
--- |     2 | Georginio  | Rutter       |
--- |     2 | Bernardo   | Silva        |
--- |     2 | Alex       | Iwobi        |
--- |     2 | Marcus     | Rashford     |
--- |     2 | Armando    |  Broja       |
--- |     2 | Heung-min  | Son          |
 -- |     2 | Alexis     | Mac Allister |
 -- |     2 | Marcus     | Rashford     |
+-- |     2 | Ivan       | Perisic      |
+-- |     2 | Bernardo   | Silva        |
+-- |     2 | Georginio  | Rutter       |
+-- |     2 | Heung-min  | Son          |
 -- |     2 | Kelvin     | De Bruyne    |
 -- |     2 | Wilfried   | Gnonto       |
+-- |     2 | Alex       | Iwobi        |
+-- |     1 | Callum     | Wilson       |
 -- +-------+------------+--------------+
--- 10 rows in set (0.000 sec)
 
 
 
